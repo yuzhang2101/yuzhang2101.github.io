@@ -1,0 +1,311 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+
+
+
+
+
+<rss xmlns:atom="http://www.w3.org/2005/Atom" version="2.0">
+    <channel>
+        <title>张渝的博客</title>
+        <link>https://yuzhang17.github.io/</link>
+        <description>张渝的个人博客。</description>
+        <generator>Hugo 0.64.0 https://gohugo.io/</generator>
+        
+            <language>en</language>
+        
+        
+            <managingEditor>yuzhangfish25@gmail.com (张渝)</managingEditor>
+        
+        
+            <webMaster>yuzhangfish25@gmail.com (张渝)</webMaster>
+        
+        
+            <copyright>[CC BY-NC-SA 4.0](https://creativecommons.org/licenses/by-nc-sa/4.0/deed.zh)</copyright>
+        
+        <lastBuildDate>Sat, 07 Oct 2023 09:28:04 &#43;0000</lastBuildDate>
+        
+            <atom:link rel="self" type="application/rss&#43;xml" href="https://yuzhang17.github.io/rss.xml" />
+        
+        
+            <item>
+                <title>一步一步落地持续部署</title>
+                <link>https://yuzhang17.github.io/posts/%E4%B8%80%E6%AD%A5%E4%B8%80%E6%AD%A5%E8%90%BD%E5%9C%B0%E6%8C%81%E7%BB%AD%E9%83%A8%E7%BD%B2/</link>
+                <guid isPermaLink="true">https://yuzhang17.github.io/posts/%E4%B8%80%E6%AD%A5%E4%B8%80%E6%AD%A5%E8%90%BD%E5%9C%B0%E6%8C%81%E7%BB%AD%E9%83%A8%E7%BD%B2/</guid>
+                <pubDate>Tue, 21 Jun 2022 16:04:20 &#43;0800</pubDate>
+                
+                    <author>yuzhangfish25@gmail.com (张渝)</author>
+                
+                <copyright>[CC BY-NC-SA 4.0](https://creativecommons.org/licenses/by-nc-sa/4.0/deed.zh)</copyright>
+                
+                    <description>&lt;p&gt;根据CD Fundation2022年第二季度的报告，有47%的开发人员使用了CI/CD，但是只有1/5的开发人员使用持续部署（Continuous Deployment）的方式完全自动化的进行构建、测试、部署代码到生产环境。在过去的一年时间里，我们团队尝试从持续交付（Continuous  Delievery）向持续部署(Continuous Deployment)转变，并在此过程中总结了一些经验。&lt;/p&gt;
+&lt;h2 id=&#34;让团队接受持续部署&#34;&gt;让团队接受持续部署&lt;/h2&gt;
+&lt;p&gt;一般情况下，在团队推广持续部署时团队成员第一反应都是不接受。主要是因为：一方面团队成员已经习惯了在提交代码之后由QA去验证然后手动去部署的方式；另一方面团队对于在代码被提交之后直接部署到生产环境缺乏信心。为了让团队成员接受持续部署，我们可以参照以下步骤：&lt;/p&gt;
+&lt;h3 id=&#34;明确持续部署的价值&#34;&gt;明确持续部署的价值&lt;/h3&gt;
+&lt;p&gt;首先，我们需要在团队内对于持续部署的价值达成一致。可以在团队内安排相关主题的session，在团队内分享持续部署所能带给团队的价值以及业界内持续部署的发展情况。这样可以让大家迅速明白当前团队DEVOPS在业界的级别，让大家更清楚正确的方向。在这里推荐 &lt;a href=&#34;https://cd.foundation/&#34;&gt;CD fundation&lt;/a&gt;，你可以从中找到最新的业界DEVOPS报告。&lt;/p&gt;
+&lt;h3 id=&#34;头脑风暴持续部署验收条件&#34;&gt;头脑风暴持续部署验收条件&lt;/h3&gt;
+&lt;p&gt;其次，我们需要和整个团队一起定义应用持续部署的验收条件。通过组织一个workshop，让大家列出对于持续部署的疑虑以及我们需要在哪些维度做到什么程度团队就可以使用持续部署。通过workshop上收集到的信息总结成持续部署验收条件，团队能够明确知道当达到什么程度时就可以开始落地持续部署。&lt;/p&gt;
+&lt;h3 id=&#34;识别差距指定计划&#34;&gt;识别差距，指定计划&lt;/h3&gt;
+&lt;p&gt;最后，根据验收条件和团队当前的状态，可以明确两者之间的差距。通过差距明确任务列表，之后可以在每个迭代中排入相关的卡，当做完所有任务列表中的卡时，就可以真正开始在团队中应用持续部署。&lt;/p&gt;
+&lt;h2 id=&#34;在持续部署过程中保证质量&#34;&gt;在持续部署过程中保证质量&lt;/h2&gt;
+&lt;p&gt;在使用持续部署之后，团队会更频繁的自动化部署代码到生产环境。因此，也需要一些响应的机制保证部署的质量。&lt;/p&gt;
+&lt;h3 id=&#34;工作流程&#34;&gt;工作流程&lt;/h3&gt;
+&lt;p&gt;在使用持续部署前后工作流程是不相同的，在使用持续部署之前，QA会在代码merge之前进行测试，并在测试完成之后将代码手动部署到生产环境，如下图所示：&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;https://cdn.jsdelivr.net/gh/yuzhang17/static-resources@master/blogs/cd-pratice/as-is-flow.32urg2atv4m0.webp&#34; alt=&#34;&#34;&gt;&lt;/p&gt;
+&lt;p&gt;而在持续部署之后：&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;https://cdn.jsdelivr.net/gh/yuzhang17/static-resources@master/blogs/cd-pratice/to-be-flow.b655ppg7fgw.webp&#34; alt=&#34;&#34;&gt;&lt;/p&gt;
+&lt;ol&gt;
+&lt;li&gt;我们需要进行测试左移。因为QA已经没有机会在代码合并之后进行测试。测试左移有两个方面：一方面QA在代码开发之前介入，和开发人员一起梳理测试用例；另一方面，开发人员需要先完成自动化测试才能合入实现代码，以保证所有实现代码在部署到生产环境之前都有足够的自动化测试覆盖。&lt;/li&gt;
+&lt;li&gt;我们需要调整desk check 的时机，团队成员需要在代码合入之前一起检查实现的功能是否符合预期，是否有足够的自动化测试覆盖。可以选择在特性分支上进行desk check。&lt;/li&gt;
+&lt;/ol&gt;
+&lt;h3 id=&#34;测试&#34;&gt;测试&lt;/h3&gt;
+&lt;p&gt;为了保证部署到生产环境的质量，测试是最重要的一部分。&lt;/p&gt;
+&lt;h4 id=&#34;测试策略&#34;&gt;测试策略&lt;/h4&gt;
+&lt;p&gt;在团队中需要有明确的测试策略，在我们团队中，我们使用测试金字塔和测试四象限来描述我们的测试策略。&lt;/p&gt;
+&lt;h4 id=&#34;测试金字塔&#34;&gt;测试金字塔&lt;/h4&gt;
+&lt;p&gt;&lt;img src=&#34;https://cdn.jsdelivr.net/gh/yuzhang17/static-resources@master/blogs/cd-pratice/%E6%B5%8B%E8%AF%95%E9%87%91%E5%AD%97%E5%A1%94.95yw26z2cq0.webp&#34; alt=&#34;&#34;&gt;&lt;/p&gt;
+&lt;h4 id=&#34;测试四象限&#34;&gt;测试四象限&lt;/h4&gt;
+&lt;p&gt;&lt;img src=&#34;https://cdn.jsdelivr.net/gh/yuzhang17/static-resources@master/blogs/cd-pratice/%E6%B5%8B%E8%AF%95%E5%9B%9B%E8%B1%A1%E9%99%90.23wsb0jzb8cg.webp&#34; alt=&#34;&#34;&gt;&lt;/p&gt;
+&lt;p&gt;通过测试策略：&lt;/p&gt;
+&lt;ol&gt;
+&lt;li&gt;
+&lt;p&gt;团队成员能够明确的知道已有代码的测试覆盖率，帮助团队构建信心。&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;团队成员可以明确的知道在实现新功能时需要添加哪些层次的自动化测试来保证质量。&lt;/p&gt;
+&lt;/li&gt;
+&lt;/ol&gt;
+&lt;h4 id=&#34;足够的测试覆盖&#34;&gt;足够的测试覆盖&lt;/h4&gt;
+&lt;p&gt;在有了明确的测试策略之后，我们还需要足够的测试覆盖率。这里的覆盖率不是简单的基于代码的行覆盖率或者是分支覆盖率，而应该是测试用例的覆盖率。我们也可以使用测试金字塔去描述。&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;https://cdn.jsdelivr.net/gh/yuzhang17/static-resources@master/blogs/cd-pratice/%E6%B5%8B%E8%AF%95%E8%A6%86%E7%9B%96%E7%8E%87.6sz8ncb5gu80.webp&#34; alt=&#34;&#34;&gt;&lt;/p&gt;
+&lt;h3 id=&#34;回滚策略&#34;&gt;回滚策略&lt;/h3&gt;
+&lt;p&gt;最后，团队还要有合理的回滚策略，以便在bug泄露到生产环境时能够快速回滚。我们团队在实践中使用了蓝绿部署的方式，当发现新的部署有问题时，可以快速的切换回前一个版本。&lt;/p&gt;
+</description>
+                
+                
+                
+                
+                
+                    
+                        
+                    
+                        
+                    
+                
+            </item>
+        
+            <item>
+                <title>在Kubernetes中实现优雅退出</title>
+                <link>https://yuzhang17.github.io/posts/%E5%9C%A8kubernetes%E4%B8%AD%E5%AE%9E%E7%8E%B0%E4%BC%98%E9%9B%85%E9%80%80%E5%87%BA/</link>
+                <guid isPermaLink="true">https://yuzhang17.github.io/posts/%E5%9C%A8kubernetes%E4%B8%AD%E5%AE%9E%E7%8E%B0%E4%BC%98%E9%9B%85%E9%80%80%E5%87%BA/</guid>
+                <pubDate>Fri, 10 Sep 2021 11:24:56 &#43;0800</pubDate>
+                
+                    <author>yuzhangfish25@gmail.com (张渝)</author>
+                
+                <copyright>[CC BY-NC-SA 4.0](https://creativecommons.org/licenses/by-nc-sa/4.0/deed.zh)</copyright>
+                
+                    <description>&lt;p&gt;随着持续部署（Continously Deployment）在项目中的使用，之前定期或者固定时间的发布节奏变为了随时高频率的发布。这就要求每次发布都应该是零停机部署（Zero Downtime Deployment），否则将会引入bug。k8s中有一套完整的机制保证我们的应用能够实现零停机部署，本文将重点分析其中的优雅退出部分。&lt;/p&gt;
+&lt;blockquote&gt;
+&lt;p&gt;本文需要对k8s的架构和核心组件的职责有一定的了解，如不了解可参考 &lt;a href=&#34;https://kubernetes.io/docs/concepts/overview/components/&#34;&gt;Kubernetes Components&lt;/a&gt;&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;h2 id=&#34;发现问题&#34;&gt;发现问题&lt;/h2&gt;
+&lt;p&gt;对于Kubernetes Deployment的每次部署过程，都是新版本的Pod创建、老版本的Pod删除的过程。&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;https://cdn.jsdelivr.net/gh/yuzhang17/static-resources@master/blogs/graceful_shutdown_in_kubernetes/graceful_shutdown_delete_deployment.7b6bk11smog0.jpg&#34; alt=&#34;graceful_shutdown_delete_deployment&#34; style=&#34;zoom:25%;&#34; /&gt;&lt;/p&gt;
+&lt;p&gt;在这个过程中如果不使用优雅退出，则会引发两个问题：&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;问题1：可能会出现Pod未将正在处理的请求处理完成的情况下被删除，如果该请求不是幂等性的，则会导致状态不一致的bug。&lt;/li&gt;
+&lt;li&gt;问题2：可能会出现Pod已经被删除，Kubernetes仍然将流量导向该Pod，从而出现用户请求处理失败，带来比较差的用户体验。&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h2 id=&#34;分析问题&#34;&gt;分析问题&lt;/h2&gt;
+&lt;p&gt;在Kubernetes Pod 的删除过程中，同时会存在两条并行的时间线，如下图所示，其中一条时间线是网络规则的更新过程，另一条时间线是Pod的删除过程。&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;https://cdn.jsdelivr.net/gh/yuzhang17/static-resources@master/blogs/graceful_shutdown_in_kubernetes/graceful_shutdown_issues.17qy4czg0bpc.jpg&#34; alt=&#34;graceful_shutdown_issues&#34;&gt;&lt;/p&gt;
+&lt;p&gt;当用户执行 &lt;code&gt;kubectl delete pod&lt;/code&gt; 命令时，&lt;/p&gt;
+&lt;p&gt;网络规则生效流程：&lt;/p&gt;
+&lt;ol&gt;
+&lt;li&gt;Kube-apiserver会收到Pod删除的请求，在Etcd中更新Pod的状态为Terminating；&lt;/li&gt;
+&lt;li&gt;Endpoint Controller将该Pod的ip从Endpoint对象中删除；&lt;/li&gt;
+&lt;li&gt;Kube-proxy根据Endpoint对象的改变更新iptables规则，不再将流量路由到被删除的Pod。&lt;/li&gt;
+&lt;/ol&gt;
+&lt;p&gt;Pod删除流程：&lt;/p&gt;
+&lt;ol&gt;
+&lt;li&gt;Kube-apiserver 会收到Pod删除的请求，在Etcd中更新Pod的状态为Terminating；&lt;/li&gt;
+&lt;li&gt;Kubelet在节点上清理容器的相关资源，例如存储，网络；&lt;/li&gt;
+&lt;li&gt;Kubelet发送SIGTERM进程给容器，如果容器中的进程未做任何配置，则容器立即退出；&lt;/li&gt;
+&lt;li&gt;如果容器未在默认的30秒时间内退出，Kubelet发送SIGKILL给容器，强制让容器退出。&lt;/li&gt;
+&lt;/ol&gt;
+&lt;p&gt;从Pod的删除过程可以知道，如果不对容器内的进程进行任何配置，容器会立即退出，会导致问题1出现。&lt;/p&gt;
+&lt;p&gt;由于网络规则的更新和Pod的删除是并行的，所以并不能保证网络规则的更新时间一定会早于Pod的删除时间，所以，有可能出现问题2。&lt;/p&gt;
+&lt;h2 id=&#34;解决问题&#34;&gt;解决问题&lt;/h2&gt;
+&lt;p&gt;如果要解决以上两个问题，我们需要做如下配置&lt;/p&gt;
+&lt;ol&gt;
+&lt;li&gt;
+&lt;p&gt;设置容器中进程的优雅退出；&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;增加preStopHook；&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;修改terminationGracePeriodSeconds。&lt;/p&gt;
+&lt;/li&gt;
+&lt;/ol&gt;
+&lt;p&gt;配置后的时间线如下图所示：&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;https://cdn.jsdelivr.net/gh/yuzhang17/static-resources@master/blogs/graceful_shutdown_in_kubernetes/graceful_shutdown_solution.6v9bw51n0hk.jpg&#34; alt=&#34;graceful_shutdown_solution&#34;&gt;&lt;/p&gt;
+&lt;h3 id=&#34;设置容器中进程的优雅退出&#34;&gt;设置容器中进程的优雅退出&lt;/h3&gt;
+&lt;p&gt;在我们项目中，使用的是Springboot，只需要在Springboot的配置文件中增加配置&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;div class=&#34;chroma&#34;&gt;
+&lt;table class=&#34;lntable&#34;&gt;&lt;tr&gt;&lt;td class=&#34;lntd&#34;&gt;
+&lt;pre class=&#34;chroma&#34;&gt;&lt;code&gt;&lt;span class=&#34;lnt&#34;&gt;1
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;2
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;3
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;4
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;5
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;6
+&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;
+&lt;td class=&#34;lntd&#34;&gt;
+&lt;pre class=&#34;chroma&#34;&gt;&lt;code class=&#34;language-yaml&#34; data-lang=&#34;yaml&#34;&gt;&lt;span class=&#34;k&#34;&gt;server&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;:&lt;/span&gt;&lt;span class=&#34;w&#34;&gt;
+&lt;/span&gt;&lt;span class=&#34;w&#34;&gt;&lt;/span&gt;&lt;span class=&#34;w&#34;&gt;  &lt;/span&gt;&lt;span class=&#34;k&#34;&gt;shutdown&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;:&lt;/span&gt;&lt;span class=&#34;w&#34;&gt; &lt;/span&gt;graceful&lt;span class=&#34;w&#34;&gt;
+&lt;/span&gt;&lt;span class=&#34;w&#34;&gt;
+&lt;/span&gt;&lt;span class=&#34;w&#34;&gt;&lt;/span&gt;&lt;span class=&#34;k&#34;&gt;spring&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;:&lt;/span&gt;&lt;span class=&#34;w&#34;&gt;
+&lt;/span&gt;&lt;span class=&#34;w&#34;&gt;&lt;/span&gt;&lt;span class=&#34;w&#34;&gt;  &lt;/span&gt;&lt;span class=&#34;k&#34;&gt;lifecycle&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;:&lt;/span&gt;&lt;span class=&#34;w&#34;&gt;
+&lt;/span&gt;&lt;span class=&#34;w&#34;&gt;&lt;/span&gt;&lt;span class=&#34;w&#34;&gt;    &lt;/span&gt;&lt;span class=&#34;k&#34;&gt;timeout-per-shutdown-phase&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;:&lt;/span&gt;&lt;span class=&#34;w&#34;&gt; &lt;/span&gt;30s&lt;span class=&#34;w&#34;&gt;
+&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;
+&lt;/div&gt;
+&lt;/div&gt;&lt;p&gt;进行该配置后，Springboot会保证在接收到SIGTERM之后不会再接受新的请求&lt;sup id=&#34;fnref:1&#34;&gt;&lt;a href=&#34;https://yuzhang17.github.io/posts/%E5%9C%A8kubernetes%E4%B8%AD%E5%AE%9E%E7%8E%B0%E4%BC%98%E9%9B%85%E9%80%80%E5%87%BA/#fn:1&#34; class=&#34;footnote-ref&#34; role=&#34;doc-noteref&#34;&gt;1&lt;/a&gt;&lt;/sup&gt;， 并在超时时间内处理完所有正在处理的请求，如果不能处理完成，也会打印出相应的信息并强制退出。超时时间的具体值应该参考系统中最大允许的请求时长，所以理论上所有的请求都应该在30s内处理完，对于没有在30s内处理完成的请求，我们可以通过监控日志然后发Alert的方式，根据实际情况去处理。通过增加此配置，可以解决问题1。对于使用其它的语言和框架的项目，应该也存在类似的配置。&lt;/p&gt;
+&lt;h3 id=&#34;增加prestophook&#34;&gt;增加preStopHook&lt;/h3&gt;
+&lt;p&gt;针对问题2，需保证网络规则更新后，也就是说新的流量不再路由到要删除的Pod后，再开始Pod的删除。所以需要在 Kubernetes 的Yaml文件中增加 preStopHook&lt;sup id=&#34;fnref:2&#34;&gt;&lt;a href=&#34;https://yuzhang17.github.io/posts/%E5%9C%A8kubernetes%E4%B8%AD%E5%AE%9E%E7%8E%B0%E4%BC%98%E9%9B%85%E9%80%80%E5%87%BA/#fn:2&#34; class=&#34;footnote-ref&#34; role=&#34;doc-noteref&#34;&gt;2&lt;/a&gt;&lt;/sup&gt;，让Kubelet接收到Pod删除事件后等待一段时间，给Kube-proxy足够的时间更新iptables网络规则后，再开始删除Pod。&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;div class=&#34;chroma&#34;&gt;
+&lt;table class=&#34;lntable&#34;&gt;&lt;tr&gt;&lt;td class=&#34;lntd&#34;&gt;
+&lt;pre class=&#34;chroma&#34;&gt;&lt;code&gt;&lt;span class=&#34;lnt&#34;&gt;1
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;2
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;3
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;4
+&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;
+&lt;td class=&#34;lntd&#34;&gt;
+&lt;pre class=&#34;chroma&#34;&gt;&lt;code class=&#34;language-yaml&#34; data-lang=&#34;yaml&#34;&gt;&lt;span class=&#34;k&#34;&gt;lifecycle&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;:&lt;/span&gt;&lt;span class=&#34;w&#34;&gt;
+&lt;/span&gt;&lt;span class=&#34;w&#34;&gt;&lt;/span&gt;&lt;span class=&#34;w&#34;&gt;  &lt;/span&gt;&lt;span class=&#34;k&#34;&gt;preStop&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;:&lt;/span&gt;&lt;span class=&#34;w&#34;&gt;
+&lt;/span&gt;&lt;span class=&#34;w&#34;&gt;&lt;/span&gt;&lt;span class=&#34;w&#34;&gt;    &lt;/span&gt;&lt;span class=&#34;k&#34;&gt;exec&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;:&lt;/span&gt;&lt;span class=&#34;w&#34;&gt;
+&lt;/span&gt;&lt;span class=&#34;w&#34;&gt;&lt;/span&gt;&lt;span class=&#34;w&#34;&gt;      &lt;/span&gt;&lt;span class=&#34;k&#34;&gt;command&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;:&lt;/span&gt;&lt;span class=&#34;w&#34;&gt; &lt;/span&gt;&lt;span class=&#34;p&#34;&gt;[&lt;/span&gt;&lt;span class=&#34;s2&#34;&gt;&amp;#34;sh&amp;#34;&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;,&lt;/span&gt;&lt;span class=&#34;w&#34;&gt; &lt;/span&gt;&lt;span class=&#34;s2&#34;&gt;&amp;#34;-c&amp;#34;&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;,&lt;/span&gt;&lt;span class=&#34;w&#34;&gt; &lt;/span&gt;&lt;span class=&#34;s2&#34;&gt;&amp;#34;sleep 10&amp;#34;&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;]&lt;/span&gt;&lt;span class=&#34;w&#34;&gt;  &lt;/span&gt;&lt;span class=&#34;c&#34;&gt;# set prestop hook&lt;/span&gt;&lt;span class=&#34;w&#34;&gt;
+&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;
+&lt;/div&gt;
+&lt;/div&gt;&lt;p&gt;这里在我们项目中设置的10s是参照Springboot官网的配置&lt;sup id=&#34;fnref:3&#34;&gt;&lt;a href=&#34;https://yuzhang17.github.io/posts/%E5%9C%A8kubernetes%E4%B8%AD%E5%AE%9E%E7%8E%B0%E4%BC%98%E9%9B%85%E9%80%80%E5%87%BA/#fn:3&#34; class=&#34;footnote-ref&#34; role=&#34;doc-noteref&#34;&gt;3&lt;/a&gt;&lt;/sup&gt;。&lt;/p&gt;
+&lt;h3 id=&#34;修改terminationgraceperiodseconds&#34;&gt;修改terminationGracePeriodSeconds&lt;/h3&gt;
+&lt;p&gt;参照之前分析的Pod删除的流程，Kubernetes会给容器最大的删除时长是30秒&lt;sup id=&#34;fnref:2&#34;&gt;&lt;a href=&#34;https://yuzhang17.github.io/posts/%E5%9C%A8kubernetes%E4%B8%AD%E5%AE%9E%E7%8E%B0%E4%BC%98%E9%9B%85%E9%80%80%E5%87%BA/#fn:2&#34; class=&#34;footnote-ref&#34; role=&#34;doc-noteref&#34;&gt;2&lt;/a&gt;&lt;/sup&gt;，如果我们在Spring中优雅退出的超时时长和在Kubernetes中的preStopHook时长大于30s，则可能会出现Springboot还未处理完所有的请求Kubernetes已经开始强制删除容器。所以如果这个时长大于30秒，我们需要修改 terminationGracePeriodSeconds使其大于Springboot的优雅退出超时时间和preStopHook之和&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;div class=&#34;chroma&#34;&gt;
+&lt;table class=&#34;lntable&#34;&gt;&lt;tr&gt;&lt;td class=&#34;lntd&#34;&gt;
+&lt;pre class=&#34;chroma&#34;&gt;&lt;code&gt;&lt;span class=&#34;lnt&#34;&gt;1
+&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;
+&lt;td class=&#34;lntd&#34;&gt;
+&lt;pre class=&#34;chroma&#34;&gt;&lt;code class=&#34;language-yaml&#34; data-lang=&#34;yaml&#34;&gt;&lt;span class=&#34;w&#34;&gt; &lt;/span&gt;&lt;span class=&#34;k&#34;&gt;terminationGracePeriodSeconds&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;:&lt;/span&gt;&lt;span class=&#34;w&#34;&gt; &lt;/span&gt;&lt;span class=&#34;m&#34;&gt;45&lt;/span&gt;&lt;span class=&#34;w&#34;&gt;   
+&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;
+&lt;/div&gt;
+&lt;/div&gt;&lt;p&gt;最终Kubernetes中的Yaml文件如下所示：&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;div class=&#34;chroma&#34;&gt;
+&lt;table class=&#34;lntable&#34;&gt;&lt;tr&gt;&lt;td class=&#34;lntd&#34;&gt;
+&lt;pre class=&#34;chroma&#34;&gt;&lt;code&gt;&lt;span class=&#34;lnt&#34;&gt; 1
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt; 2
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt; 3
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt; 4
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt; 5
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt; 6
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt; 7
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt; 8
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt; 9
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;10
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;11
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;12
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;13
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;14
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;15
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;16
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;17
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;18
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;19
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;20
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;21
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;22
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;23
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;24
+&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;
+&lt;td class=&#34;lntd&#34;&gt;
+&lt;pre class=&#34;chroma&#34;&gt;&lt;code class=&#34;language-yaml&#34; data-lang=&#34;yaml&#34;&gt;&lt;span class=&#34;k&#34;&gt;apiVersion&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;:&lt;/span&gt;&lt;span class=&#34;w&#34;&gt; &lt;/span&gt;apps/v1&lt;span class=&#34;w&#34;&gt;
+&lt;/span&gt;&lt;span class=&#34;w&#34;&gt;&lt;/span&gt;&lt;span class=&#34;k&#34;&gt;kind&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;:&lt;/span&gt;&lt;span class=&#34;w&#34;&gt; &lt;/span&gt;Deployment&lt;span class=&#34;w&#34;&gt;
+&lt;/span&gt;&lt;span class=&#34;w&#34;&gt;&lt;/span&gt;&lt;span class=&#34;k&#34;&gt;metadata&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;:&lt;/span&gt;&lt;span class=&#34;w&#34;&gt;
+&lt;/span&gt;&lt;span class=&#34;w&#34;&gt;&lt;/span&gt;&lt;span class=&#34;w&#34;&gt;  &lt;/span&gt;&lt;span class=&#34;k&#34;&gt;name&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;:&lt;/span&gt;&lt;span class=&#34;w&#34;&gt; &lt;/span&gt;graceful-shutdown-test-exit-graceful-30s&lt;span class=&#34;w&#34;&gt;
+&lt;/span&gt;&lt;span class=&#34;w&#34;&gt;&lt;/span&gt;&lt;span class=&#34;k&#34;&gt;spec&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;:&lt;/span&gt;&lt;span class=&#34;w&#34;&gt;
+&lt;/span&gt;&lt;span class=&#34;w&#34;&gt;&lt;/span&gt;&lt;span class=&#34;w&#34;&gt;  &lt;/span&gt;&lt;span class=&#34;k&#34;&gt;replicas&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;:&lt;/span&gt;&lt;span class=&#34;w&#34;&gt; &lt;/span&gt;&lt;span class=&#34;m&#34;&gt;2&lt;/span&gt;&lt;span class=&#34;w&#34;&gt;
+&lt;/span&gt;&lt;span class=&#34;w&#34;&gt;  &lt;/span&gt;&lt;span class=&#34;k&#34;&gt;selector&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;:&lt;/span&gt;&lt;span class=&#34;w&#34;&gt;
+&lt;/span&gt;&lt;span class=&#34;w&#34;&gt;&lt;/span&gt;&lt;span class=&#34;w&#34;&gt;    &lt;/span&gt;&lt;span class=&#34;k&#34;&gt;matchLabels&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;:&lt;/span&gt;&lt;span class=&#34;w&#34;&gt;
+&lt;/span&gt;&lt;span class=&#34;w&#34;&gt;&lt;/span&gt;&lt;span class=&#34;w&#34;&gt;      &lt;/span&gt;&lt;span class=&#34;k&#34;&gt;app&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;:&lt;/span&gt;&lt;span class=&#34;w&#34;&gt; &lt;/span&gt;graceful-shutdown-test-exit-graceful-30s&lt;span class=&#34;w&#34;&gt;
+&lt;/span&gt;&lt;span class=&#34;w&#34;&gt;  &lt;/span&gt;&lt;span class=&#34;k&#34;&gt;template&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;:&lt;/span&gt;&lt;span class=&#34;w&#34;&gt;
+&lt;/span&gt;&lt;span class=&#34;w&#34;&gt;&lt;/span&gt;&lt;span class=&#34;w&#34;&gt;    &lt;/span&gt;&lt;span class=&#34;k&#34;&gt;metadata&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;:&lt;/span&gt;&lt;span class=&#34;w&#34;&gt;
+&lt;/span&gt;&lt;span class=&#34;w&#34;&gt;&lt;/span&gt;&lt;span class=&#34;w&#34;&gt;      &lt;/span&gt;&lt;span class=&#34;k&#34;&gt;labels&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;:&lt;/span&gt;&lt;span class=&#34;w&#34;&gt;
+&lt;/span&gt;&lt;span class=&#34;w&#34;&gt;&lt;/span&gt;&lt;span class=&#34;w&#34;&gt;        &lt;/span&gt;&lt;span class=&#34;k&#34;&gt;app&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;:&lt;/span&gt;&lt;span class=&#34;w&#34;&gt; &lt;/span&gt;graceful-shutdown-test-exit-graceful-30s&lt;span class=&#34;w&#34;&gt;
+&lt;/span&gt;&lt;span class=&#34;w&#34;&gt;    &lt;/span&gt;&lt;span class=&#34;k&#34;&gt;spec&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;:&lt;/span&gt;&lt;span class=&#34;w&#34;&gt;
+&lt;/span&gt;&lt;span class=&#34;w&#34;&gt;&lt;/span&gt;&lt;span class=&#34;w&#34;&gt;      &lt;/span&gt;&lt;span class=&#34;k&#34;&gt;containers&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;:&lt;/span&gt;&lt;span class=&#34;w&#34;&gt;
+&lt;/span&gt;&lt;span class=&#34;w&#34;&gt;&lt;/span&gt;&lt;span class=&#34;w&#34;&gt;        &lt;/span&gt;- &lt;span class=&#34;k&#34;&gt;name&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;:&lt;/span&gt;&lt;span class=&#34;w&#34;&gt; &lt;/span&gt;graeceful-shutdonw-test&lt;span class=&#34;w&#34;&gt;
+&lt;/span&gt;&lt;span class=&#34;w&#34;&gt;          &lt;/span&gt;&lt;span class=&#34;k&#34;&gt;image&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;:&lt;/span&gt;&lt;span class=&#34;w&#34;&gt; &lt;/span&gt;graceful-shutdown-test-exit-graceful-30s&lt;span class=&#34;p&#34;&gt;:&lt;/span&gt;latest&lt;span class=&#34;w&#34;&gt;
+&lt;/span&gt;&lt;span class=&#34;w&#34;&gt;          &lt;/span&gt;&lt;span class=&#34;k&#34;&gt;ports&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;:&lt;/span&gt;&lt;span class=&#34;w&#34;&gt;
+&lt;/span&gt;&lt;span class=&#34;w&#34;&gt;&lt;/span&gt;&lt;span class=&#34;w&#34;&gt;            &lt;/span&gt;- &lt;span class=&#34;k&#34;&gt;containerPort&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;:&lt;/span&gt;&lt;span class=&#34;w&#34;&gt; &lt;/span&gt;&lt;span class=&#34;m&#34;&gt;8080&lt;/span&gt;&lt;span class=&#34;w&#34;&gt;
+&lt;/span&gt;&lt;span class=&#34;w&#34;&gt;          &lt;/span&gt;&lt;span class=&#34;k&#34;&gt;lifecycle&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;:&lt;/span&gt;&lt;span class=&#34;w&#34;&gt;
+&lt;/span&gt;&lt;span class=&#34;w&#34;&gt;&lt;/span&gt;&lt;span class=&#34;w&#34;&gt;            &lt;/span&gt;&lt;span class=&#34;k&#34;&gt;preStop&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;:&lt;/span&gt;&lt;span class=&#34;w&#34;&gt;
+&lt;/span&gt;&lt;span class=&#34;w&#34;&gt;&lt;/span&gt;&lt;span class=&#34;w&#34;&gt;              &lt;/span&gt;&lt;span class=&#34;k&#34;&gt;exec&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;:&lt;/span&gt;&lt;span class=&#34;w&#34;&gt;
+&lt;/span&gt;&lt;span class=&#34;w&#34;&gt;&lt;/span&gt;&lt;span class=&#34;w&#34;&gt;                &lt;/span&gt;&lt;span class=&#34;k&#34;&gt;command&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;:&lt;/span&gt;&lt;span class=&#34;w&#34;&gt; &lt;/span&gt;&lt;span class=&#34;p&#34;&gt;[&lt;/span&gt;&lt;span class=&#34;s2&#34;&gt;&amp;#34;sh&amp;#34;&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;,&lt;/span&gt;&lt;span class=&#34;w&#34;&gt; &lt;/span&gt;&lt;span class=&#34;s2&#34;&gt;&amp;#34;-c&amp;#34;&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;,&lt;/span&gt;&lt;span class=&#34;w&#34;&gt; &lt;/span&gt;&lt;span class=&#34;s2&#34;&gt;&amp;#34;sleep 10&amp;#34;&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;]&lt;/span&gt;&lt;span class=&#34;w&#34;&gt;  &lt;/span&gt;&lt;span class=&#34;c&#34;&gt;# set prestop hook&lt;/span&gt;&lt;span class=&#34;w&#34;&gt;
+&lt;/span&gt;&lt;span class=&#34;w&#34;&gt;      &lt;/span&gt;&lt;span class=&#34;k&#34;&gt;terminationGracePeriodSeconds&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;:&lt;/span&gt;&lt;span class=&#34;w&#34;&gt; &lt;/span&gt;&lt;span class=&#34;m&#34;&gt;45&lt;/span&gt;&lt;span class=&#34;w&#34;&gt;    &lt;/span&gt;&lt;span class=&#34;c&#34;&gt;# terminationGracePeriodSeconds&lt;/span&gt;&lt;span class=&#34;w&#34;&gt;
+&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;
+&lt;/div&gt;
+&lt;/div&gt;&lt;p&gt;可以看出，通过设置Springboot的优雅退出，保证了正在处理的请求能够处理完成，通过设置preStopHook，保证了Pod删除和网络规则更新的时序关系。通过配置terminationGracePeriodSeconds，给了容器中进程足够的时间处理所有的请求。综合以上三个步骤，可以解决之前发现的两个问题。&lt;/p&gt;
+&lt;h2 id=&#34;总结&#34;&gt;总结&lt;/h2&gt;
+&lt;p&gt;通过在Kubernetes实现优雅退出，保证在随时高频率部署的情况下，服务也可以正确处理所有的请求，减少了bug的出现，提升了用户的体验。&lt;/p&gt;
+&lt;h2 id=&#34;reference&#34;&gt;Reference&lt;/h2&gt;
+&lt;section class=&#34;footnotes&#34; role=&#34;doc-endnotes&#34;&gt;
+&lt;hr&gt;
+&lt;ol&gt;
+&lt;li id=&#34;fn:1&#34; role=&#34;doc-endnote&#34;&gt;
+&lt;p&gt;&lt;a href=&#34;https://docs.spring.io/spring-boot/docs/2.4.4/reference/htmlsingle/#boot-features-graceful-shutdown:&#34;&gt;https://docs.spring.io/spring-boot/docs/2.4.4/reference/htmlsingle/#boot-features-graceful-shutdown:&lt;/a&gt; SpringBoot graceful shutdown &lt;a href=&#34;https://yuzhang17.github.io/posts/%E5%9C%A8kubernetes%E4%B8%AD%E5%AE%9E%E7%8E%B0%E4%BC%98%E9%9B%85%E9%80%80%E5%87%BA/#fnref:1&#34; class=&#34;footnote-backref&#34; role=&#34;doc-backlink&#34;&gt;&amp;#x21a9;&amp;#xfe0e;&lt;/a&gt;&lt;/p&gt;
+&lt;/li&gt;
+&lt;li id=&#34;fn:2&#34; role=&#34;doc-endnote&#34;&gt;
+&lt;p&gt;&lt;a href=&#34;https://docs.spring.io/spring-boot/docs/2.4.4/reference/htmlsingle/#cloud-deployment-kubernetes-container-lifecycle&#34;&gt;https://docs.spring.io/spring-boot/docs/2.4.4/reference/htmlsingle/#cloud-deployment-kubernetes-container-lifecycle&lt;/a&gt; : SpringBoot Kubernetes Container Lifecycle &lt;a href=&#34;https://yuzhang17.github.io/posts/%E5%9C%A8kubernetes%E4%B8%AD%E5%AE%9E%E7%8E%B0%E4%BC%98%E9%9B%85%E9%80%80%E5%87%BA/#fnref:2&#34; class=&#34;footnote-backref&#34; role=&#34;doc-backlink&#34;&gt;&amp;#x21a9;&amp;#xfe0e;&lt;/a&gt;&lt;/p&gt;
+&lt;/li&gt;
+&lt;li id=&#34;fn:3&#34; role=&#34;doc-endnote&#34;&gt;
+&lt;p&gt;&lt;a href=&#34;https://kubernetes.io/docs/concepts/containers/container-lifecycle-hooks/#hook-handler-execution&#34;&gt;https://kubernetes.io/docs/concepts/containers/container-lifecycle-hooks/#hook-handler-execution&lt;/a&gt; : SpringBoot Kubernetes lifecycle Hooks &lt;a href=&#34;https://yuzhang17.github.io/posts/%E5%9C%A8kubernetes%E4%B8%AD%E5%AE%9E%E7%8E%B0%E4%BC%98%E9%9B%85%E9%80%80%E5%87%BA/#fnref:3&#34; class=&#34;footnote-backref&#34; role=&#34;doc-backlink&#34;&gt;&amp;#x21a9;&amp;#xfe0e;&lt;/a&gt;&lt;/p&gt;
+&lt;/li&gt;
+&lt;/ol&gt;
+&lt;/section&gt;
+</description>
+                
+                
+                
+                
+                
+                    
+                        
+                            
+                                
+                                
+                                
+                                    <category domain="https://yuzhang17.github.io/categories/kubernetes/">Kubernetes</category>
+                                
+                            
+                        
+                    
+                        
+                            
+                                
+                                
+                                
+                                    <category domain="https://yuzhang17.github.io/tags/kubernetes/">Kubernetes</category>
+                                
+                            
+                                
+                                
+                                
+                                    <category domain="https://yuzhang17.github.io/tags/devops/">Devops</category>
+                                
+                            
+                        
+                    
+                
+            </item>
+        
+    </channel>
+</rss>

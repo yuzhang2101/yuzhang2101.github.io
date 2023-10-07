@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Categories on 张渝的博客</title>
+    <link>https://yuzhang17.github.io/categories/</link>
+    <description>Recent content in Categories on 张渝的博客</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>en</language>
+    <managingEditor>yuzhangfish25@gmail.com (张渝)</managingEditor>
+    <webMaster>yuzhangfish25@gmail.com (张渝)</webMaster>
+    <copyright>[CC BY-NC-SA 4.0](https://creativecommons.org/licenses/by-nc-sa/4.0/deed.zh)</copyright>
+    <lastBuildDate>Fri, 10 Sep 2021 11:24:56 +0800</lastBuildDate>
+    
+	<atom:link href="https://yuzhang17.github.io/categories/index.xml" rel="self" type="application/rss+xml" />
+    
+    
+    <item>
+      <title>Kubernetes</title>
+      <link>https://yuzhang17.github.io/categories/kubernetes/</link>
+      <pubDate>Fri, 10 Sep 2021 11:24:56 +0800</pubDate>
+      <author>yuzhangfish25@gmail.com (张渝)</author>
+      <guid>https://yuzhang17.github.io/categories/kubernetes/</guid>
+      <description></description>
+    </item>
+    
+  </channel>
+</rss>
